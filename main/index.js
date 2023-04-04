@@ -2,7 +2,7 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 // TODO: Create an array of questions for user input
-const questions = [{
+const ask = [{
     type: 'input',
     name: 'projectTitle',
     message: 'What is your projects name?'
@@ -44,6 +44,11 @@ const questions = [{
     name: 'tests',
     message: 'Test instructions:'
 },
+{
+    type: 'input',
+    name: 'questions',
+    message: 'Any questions?'
+}
 
 ];
 
@@ -52,7 +57,7 @@ const questions = [{
 // TODO: Create a function to initialize app
 function init() {
     inquirer
-        .prompt(questions)
+        .prompt(ask)
         .then(answers => {
             const renderLicenseBadge = (license) => {
                 if (license === 'Mit') {
@@ -74,38 +79,38 @@ function init() {
 
             const { projectTitle, description, tableOfContents, installation, usage, license, contributing, tests, questions } = answers
 
-            return `# ${projectTitle} 
-
-             ## Description
-            ${description}
-
-             ## Table of Contents 
-             ${tableOfContents}
-
-             ## Installation 
-             ${installation}
-
-             ##  Usage
-             ${usage}
-
-             ## LICENSE
-             This project is licensed under the ${license} license
-             ${renderLicenseBadge(license)}
-             
-             ## Contributing 
-             ${contributing}
-
-             ## Tests
-             ${tests}
-
-             ## Questions 
-             ${questions}`
+            return `
+# ${projectTitle} 
+This project is licensed under the ${license} license
+${renderLicenseBadge(license)}
+## Description
+${description}
+## Table of Contents 
+${tableOfContents}
+## Installation 
+${installation}
+         
+##  Usage
+${usage}
+                      
+## Contributing 
+${contributing}
+         
+## Tests
+${tests}
+         
+## Questions 
+${questions}`
 
         })
-        .then(data => fs.writeFileSync('YOURREADME.md', data))
+        .then(data => {fs.writeFileSync('YOURREADME.md', data )
+        console.log("Success! Your README has been created!")})
+        
+        
 }
 
 // Function call to initialize app
 init();
+
 
 
